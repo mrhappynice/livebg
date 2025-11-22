@@ -1,7 +1,6 @@
 // animations/fireField.js
 //
-// Softer, less-dense fire animation that works with the template
-// createAnimation({ canvas, initialState, onStats }) contract.
+
 
 export function createAnimation({ canvas, initialState = {}, onStats }) {
   const ctx = canvas.getContext('2d', { alpha: true });
@@ -31,7 +30,7 @@ export function createAnimation({ canvas, initialState = {}, onStats }) {
   // ==============================================================
 
   let speed =
-    typeof initialState.speed === 'number' ? initialState.speed : 0.6;
+    typeof initialState.speed === 'number' ? initialState.speed : 0.2;
 
   let zoom =
     typeof initialState.zoom === 'number' ? initialState.zoom : 1.0;
@@ -176,7 +175,10 @@ export function createAnimation({ canvas, initialState = {}, onStats }) {
 
     for (let y = 0; y < gridH; y++) {
       const rowOffset = y * gridW;
-      const sy = H - (y + 1) * cellH;
+
+      // *** CHANGED: draw rows in natural order (top at y=0, bottom at y=gridH-1) ***
+      const sy = y * cellH;
+
       if (sy > H || sy + cellH < 0) continue;
 
       for (let x = 0; x < gridW; x++) {
@@ -266,3 +268,4 @@ export function createAnimation({ canvas, initialState = {}, onStats }) {
 
   return { play, pause, reset, setParams, destroy };
 }
+
